@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meudeployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: minhacalc
+  template:
+    metadata:
+      labels:
+        app: minhacalc
+    spec:
+      containers:
+      - name: minhacalc
+        image: matheusmgc/kube-calc
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minha-calc
+spec:
+  selector:
+    app: minhacalc
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30000
+  type: NodePort
